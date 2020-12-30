@@ -1,9 +1,11 @@
-const express_var = require('express');
-const cntDb=require('./config/db');
+const express = require('express');
+const connectDb=require('./config/db');
 
-const app=express_var();
+const app=express();
 
-cntDb();
+connectDb();
+
+app.use(express.json({extended:false}))
 
 
 app.get('/',(req,res)=>{
