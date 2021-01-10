@@ -1,4 +1,0 @@
-{
-    "mongoURI":"mongodb+srv://aba_2500:MDBaba@2500@devcon.z8hyd.mongodb.net/DevCon_DB?retryWrites=true&w=majority",
-    "jwttoken":"myjwtcode"
-}
