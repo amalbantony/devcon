@@ -4,7 +4,10 @@ const db=config.get('mongoURI');
 
 const connectDB=async()=>{
     try{
-        await mgs.connect(db,{ useNewUrlParser: true,useUnifiedTopology: true,useCreateIndex:true });
+        await mgs.connect(db,{ useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useCreateIndex:true,
+            useFindAndModify:false });
         console.log('MongoDb Connected.....')
     }catch(err){
         console.error(err.message);
