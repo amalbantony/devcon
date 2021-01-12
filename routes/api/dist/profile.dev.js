@@ -504,7 +504,9 @@ router.get('/github/:username', function _callee10(req, res) {
           _context10.prev = 10;
           _context10.t0 = _context10["catch"](0);
           console.error(_context10.t0.message);
-          res.status(500).json("Server Errror,No Github Profile found for this user");
+          res.status(404).json({
+            msg: "Server Errror,No Github Profile found for this user"
+          });
 
         case 14:
         case "end":
