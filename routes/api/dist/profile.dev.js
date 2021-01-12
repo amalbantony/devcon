@@ -6,6 +6,10 @@ var router = express.Router();
 
 var auth = require('../../middleware/auth');
 
+var axios = require('axios');
+
+var config = require('config');
+
 var Profile = require('../../models/Profile');
 
 var _require = require('express-validator'),
@@ -472,5 +476,41 @@ router["delete"]('/education/:edu_id', auth, function _callee9(req, res) {
       }
     }
   }, null, null, [[0, 11]]);
+}); // get request to get github profile of a user for his/her repos -public access
+
+router.get('/github/:username', function _callee10(req, res) {
+  var uri, headers, gitHubResponse;
+  return regeneratorRuntime.async(function _callee10$(_context10) {
+    while (1) {
+      switch (_context10.prev = _context10.next) {
+        case 0:
+          _context10.prev = 0;
+          uri = encodeURI("https://api.github.com/users/".concat(req.params.username, "/repos?per_page=5&sort=created:asc"));
+          headers = {
+            'user-agent': 'node.js',
+            Authorization: "token ".concat(config.get('githubSecret'))
+          };
+          _context10.next = 5;
+          return regeneratorRuntime.awrap(axios.get(uri, {
+            headers: headers
+          }));
+
+        case 5:
+          gitHubResponse = _context10.sent;
+          console.log(gitHubResponse);
+          return _context10.abrupt("return", res.json(gitHubResponse.data));
+
+        case 10:
+          _context10.prev = 10;
+          _context10.t0 = _context10["catch"](0);
+          console.error(_context10.t0.message);
+          res.status(500).json("Server Errror,No Github Profile found for this user");
+
+        case 14:
+        case "end":
+          return _context10.stop();
+      }
+    }
+  }, null, null, [[0, 10]]);
 });
 module.exports = router;

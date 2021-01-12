@@ -1,6 +1,8 @@
 const express=require('express');
 const router=express.Router();
 const auth=require('../../middleware/auth');
+const axios=require('axios');
+const config=require('config');
 const Profile=require('../../models/Profile');
 const {check,validationResult}=require('express-validator')
 const User=require('../../models/User');
@@ -229,6 +231,32 @@ router.delete('/education/:edu_id',auth,async(req,res)=>{
         
     }
 
+})
+
+// get request to get github profile of a user for his/her repos -public access
+
+router.get('/github/:username',async(req,res)=>{
+    try {
+        const uri= encodeURI(
+                `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc`
+              );
+              
+        const headers= {
+                'user-agent': 'node.js',
+                Authorization: `token ${config.get('githubSecret')}`
+              }
+
+            
+        const gitHubResponse = await axios.get(uri, { headers });
+        console.log(gitHubResponse);
+        return res.json(gitHubResponse.data);
+    }
+        
+     catch (err) {
+        console.error(err.message);
+        res.status(500).json("Server Errror,No Github Profile found for this user");
+        
+    }
 })
 
 
