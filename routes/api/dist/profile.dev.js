@@ -488,7 +488,7 @@ router.get('/github/:username', function _callee10(req, res) {
           uri = encodeURI("https://api.github.com/users/".concat(req.params.username, "/repos?per_page=5&sort=created:asc"));
           headers = {
             'user-agent': 'node.js',
-            Authorization: "token ".concat(config.get('githubSecret'))
+            Authorization: "token ".concat(config.get('githubToken'))
           };
           _context10.next = 5;
           return regeneratorRuntime.awrap(axios.get(uri, {
